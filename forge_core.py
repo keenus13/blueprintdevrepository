@@ -9,12 +9,14 @@ Handles: Anthropic client setup, directory creation, file saving, logging.
 Directory structure on the Jetson (auto-created on first run):
     ~/kd_ai/
         .env                              <- API key and config
-        system_prompt.txt                 <- Brand system prompt (paste from Drive doc)
+        system_prompt.txt                 <- Brand system prompt (pulled from Drive doc)
         logs/                             <- Daily log files
         content/
             on_demand/                    <- Output from forge.py
             autonomous/
-                queue/                    <- Output from forge_auto.py
+                queue/                    <- Generated, awaiting Kian review
+                approved/                 <- Approved, ready for Phase 2 video assembly
+                rejected/                 <- Rejected, archived
 
 To set up the brand system prompt:
     1. Open the [DEV] Forge Setup doc in Google Drive
@@ -36,13 +38,15 @@ from load_env import load_env
 
 # ── Directory Paths (Jetson-relative via Path.home()) ──────────────────────
 # Path.home() resolves to /home/keenus13 on the Jetson
-KD_AI_ROOT          = Path.home() / "kd_ai"
-CONTENT_ROOT        = KD_AI_ROOT / "content"
-ON_DEMAND_DIR       = CONTENT_ROOT / "on_demand"
-AUTONOMOUS_DIR      = CONTENT_ROOT / "autonomous"
-AUTONOMOUS_QUEUE_DIR = AUTONOMOUS_DIR / "queue"
-LOG_DIR             = KD_AI_ROOT / "logs"
-SYSTEM_PROMPT_FILE  = KD_AI_ROOT / "system_prompt.txt"
+KD_AI_ROOT            = Path.home() / "kd_ai"
+CONTENT_ROOT          = KD_AI_ROOT / "content"
+ON_DEMAND_DIR         = CONTENT_ROOT / "on_demand"
+AUTONOMOUS_DIR        = CONTENT_ROOT / "autonomous"
+AUTONOMOUS_QUEUE_DIR  = AUTONOMOUS_DIR / "queue"
+AUTONOMOUS_APPROVED_DIR = AUTONOMOUS_DIR / "approved"
+AUTONOMOUS_REJECTED_DIR = AUTONOMOUS_DIR / "rejected"
+LOG_DIR               = KD_AI_ROOT / "logs"
+SYSTEM_PROMPT_FILE    = KD_AI_ROOT / "system_prompt.txt"
 
 # ── Default model (can be overridden in .env with FORGE_MODEL=...) ──────────
 DEFAULT_MODEL = "claude-haiku-4-5-20251001"
@@ -59,6 +63,8 @@ def setup_directories():
         ON_DEMAND_DIR,
         AUTONOMOUS_DIR,
         AUTONOMOUS_QUEUE_DIR,
+        AUTONOMOUS_APPROVED_DIR,
+        AUTONOMOUS_REJECTED_DIR,
         LOG_DIR,
     ]
     for d in dirs:
