@@ -1,0 +1,52 @@
+# ── Environment & Secrets ───────────────────────────────────────────────────
+# NEVER commit API keys or credentials. Create .env manually on each machine.
+.env
+*.env
+.env.*
+.env.local
+.env.production
+
+# ── Forge Output Content ─────────────────────────────────────────────────────
+# Generated scripts and on-demand content -- not worth tracking in git.
+# These live on the Jetson under ~/kd_ai/content/
+content/
+kd_ai/
+
+# ── Logs ─────────────────────────────────────────────────────────────────────
+logs/
+*.log
+cron.log
+
+# ── Python Cache ─────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# ── Virtual Environments ──────────────────────────────────────────────────────
+venv/
+.venv/
+env/
+ENV/
+
+# ── System & Editor Files ────────────────────────────────────────────────────
+# Windows
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# macOS (in case you ever touch this from a Mac)
+.DS_Store
+.AppleDouble
+
+# VS Code
+.vscode/
+
+# JetBrains
+.idea/
+
+# ── System Prompt (optional -- uncomment to keep private) ───────────────────
+# If your system_prompt.txt contains sensitive brand details you don't want
+# on GitHub, uncomment the next line. Otherwise it's fine to track it.
+# system_prompt.txt
